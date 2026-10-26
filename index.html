@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Spot the Attack</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{color-scheme:light;--blue:#1ecad3;--blued:#128089;--blk:#0e1518;--bg:#eef3f3;--card:#ffffff;--muted:#5b6467;--line:#e4eaea;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;background:var(--bg);color:var(--blk);font-family:'Inter',system-ui,sans-serif;-webkit-tap-highlight-color:transparent;user-select:none}
+html{overflow-x:hidden}body{display:flex;justify-content:center}
+#page{width:100%;max-width:460px;min-height:100vh;padding:22px 16px 34px;display:flex;flex-direction:column;align-items:center}
+#app{width:100%;background:var(--card);border-radius:22px;box-shadow:0 18px 50px -20px rgba(14,21,24,.25);padding:26px 22px 28px;display:flex;flex-direction:column;align-items:center;gap:14px;text-align:center;flex:1}
+.eyebrow{font:700 11px 'Inter';letter-spacing:1.2px;color:var(--blue);text-transform:uppercase}
+h1{margin:4px 0 0;font:800 30px/1.2 'Poppins';color:var(--blk)}
+h2{margin:0;font:700 17px 'Poppins';color:var(--blk)}
+.sub{font:600 13px 'Inter';color:var(--muted);margin-top:-6px}
+.btn{font:700 15px 'Poppins';color:#fff;border:none;border-radius:14px;background:var(--c,var(--blue));width:min(100%,360px);padding:15px 10px;cursor:pointer;transition:transform .12s}
+.btn:active{transform:scale(.97)}.btn:disabled{opacity:.35;cursor:default}
+.blue{--c:var(--blue)}.dark{--c:var(--blk)}.outline{--c:transparent;color:var(--blk);border:2px solid var(--blk)}
+.nj svg{width:100%;height:auto;display:block}
+.wave-arm{transform-origin:164px 118px;animation:wave 1.1s ease-in-out infinite}
+@keyframes wave{0%,100%{transform:rotate(-118deg)}50%{transform:rotate(-148deg)}}
+.cheer-r{transform-origin:164px 118px;animation:cheerR .45s ease-in-out infinite alternate}
+@keyframes cheerR{from{transform:rotate(-136deg)}to{transform:rotate(-164deg)}}
+.cheer-l{transform-origin:56px 118px;animation:cheerL .45s ease-in-out infinite alternate}
+@keyframes cheerL{from{transform:rotate(136deg)}to{transform:rotate(164deg)}}
+.cry-r{transform-origin:164px 118px;animation:cryR .35s ease-in-out infinite alternate}
+@keyframes cryR{from{transform:rotate(-5deg)}to{transform:rotate(5deg)}}
+.cry-l{transform-origin:56px 118px;animation:cryL .35s ease-in-out infinite alternate}
+@keyframes cryL{from{transform:rotate(5deg)}to{transform:rotate(-5deg)}}
+.happy svg{animation:hop .5s ease-in-out infinite alternate}@keyframes hop{to{transform:translateY(-8px)}}
+.sad svg{animation:sag 1.8s ease-in-out infinite}@keyframes sag{50%{transform:translateY(3px) rotate(-2deg)}}
+.tear{animation:tr 1s steps(4) infinite}@keyframes tr{from{transform:translateY(0);opacity:1}to{transform:translateY(6px);opacity:0}}
+.spark{transform-box:fill-box;transform-origin:center;animation:spark .8s ease-in-out infinite}@keyframes spark{0%,100%{transform:scale(.6);opacity:.4}50%{transform:scale(1.15);opacity:1}}
+.idle svg{animation:bob 1.4s ease-in-out infinite}@keyframes bob{50%{transform:translateY(-3px)}}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;width:100%}
+.opt{font:600 13px 'Inter';line-height:1.4;color:var(--blk);background:#f3f6f6;border:2px solid var(--line);border-radius:12px;padding:14px 8px;cursor:pointer}
+.opt.on{background:var(--blk);color:#fff;border-color:var(--blk)}
+.panel{width:100%;background:#f3f6f6;border:1px solid var(--line);border-radius:14px;padding:14px;text-align:left}
+.prog{display:flex;gap:7px;justify-content:center}
+.prog span{width:9px;height:9px;border-radius:50%;background:var(--line)}
+.prog span.ok{background:var(--blue)}.prog span.no{background:var(--blk)}.prog span.cur{background:var(--muted)}
+.card{width:100%;background:#fff;color:var(--blk);text-align:left;padding:16px;border-radius:16px;border:1px solid var(--line);font:500 14px/1.5 'Inter'}
+.card h3{margin:8px 0 4px;font:700 16px 'Poppins'}.card p{margin:0 0 10px}
+.hd{display:flex;gap:10px;align-items:center}.av{width:32px;height:32px;border-radius:50%;background:#eef3f3;display:grid;place-items:center;flex:none;font-weight:700;color:var(--muted)}
+.url{background:#f3f6f6;border-radius:8px;padding:8px 10px;font-size:12.5px;word-break:break-all;margin-bottom:10px;color:var(--muted)}
+.ml{font-size:11.5px;color:var(--muted);margin-top:2px;font-weight:600}
+.in{border:1px solid var(--line);border-radius:8px;padding:9px;color:var(--muted);margin-bottom:8px;font-weight:500}
+.cb{display:inline-block;background:var(--blue);color:#fff;border-radius:8px;padding:9px 14px;font-weight:700}
+.chip{display:inline-block;background:#f3f6f6;border:1px solid var(--line);border-radius:8px;padding:7px 12px}
+.card mark{background:none;color:inherit;padding:0 2px;border-radius:4px}
+.card.rev.bad mark{background:#0e15181a;outline:2px solid var(--blk)}
+.card.rev.good mark{background:#1ecad31a;outline:2px solid var(--blue)}
+.card.rev .cb mark{color:#fff}
+.v{font:700 15px 'Poppins'}.v.g{color:var(--blued)}.v.r{color:var(--blk)}
+.fl{text-align:left;font:500 13.5px/1.6 'Inter';margin:6px 0 0;padding-left:18px;color:var(--blk)}.fl li{margin-bottom:6px}
+.big{font:800 52px 'Poppins';color:var(--blue)}
+.tier{font:600 11px 'Inter';text-align:left;padding:9px 12px;background:#fff;border:1px solid var(--line);border-radius:10px;margin-top:6px;color:var(--muted)}
+.tier.on{background:var(--blk);color:#fff;border-color:var(--blk)}
+.lb{width:100%;display:flex;flex-direction:column;gap:8px}
+.lr{display:flex;align-items:center;gap:10px;background:#f3f6f6;border:1px solid var(--line);border-radius:12px;padding:9px 12px;text-align:left}
+.rk{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;background:#e4eaea;color:var(--muted);font:700 12px 'Inter';flex:none}
+.t1 .rk{background:var(--blue);color:#fff}.t2 .rk{background:var(--blued);color:#fff}.t3 .rk{background:#bcd6d6;color:var(--blk)}
+.t1{border-color:var(--blue)}
+.nm{flex:1;font:700 13.5px 'Inter';color:var(--blk)}.bar{height:5px;background:var(--line);border-radius:3px;margin-top:6px;overflow:hidden}.bar i{display:block;height:100%;background:var(--blue)}
+.pt{font:700 13px 'Poppins';color:var(--blk);min-width:40px;text-align:right}
+.mini{font:700 10px 'Inter';background:var(--blk);color:#fff;border:none;border-radius:8px;padding:8px 10px;cursor:pointer}
+.lr.me{border-color:var(--blue);background:#1ecad312}
+.nm em{font:700 9px 'Poppins';background:var(--blue);color:#fff;padding:3px 6px;border-radius:6px;margin-left:8px;font-style:normal}
+table{width:100%;border-collapse:collapse;background:#fff;color:var(--blk);font:600 13px 'Inter'}
+th{background:#f3f6f6;padding:9px}td{padding:9px 8px;border-top:1px solid var(--line)}td:first-child,td:last-child{text-align:center}td:nth-child(2){text-align:left}
+tr.me td{background:#1ecad312}
+#ed{position:fixed;inset:0;background:rgba(14,21,24,.92);padding:16px;display:none;flex-direction:column;gap:8px;z-index:9}
+#ed textarea{flex:1;background:#101819;color:#dfeeee;border:1px solid #2a3838;border-radius:10px;font:12px ui-monospace,monospace;padding:10px}
+.hint{font:600 11px 'Inter';color:var(--muted)}
+</style></head><body>
+<div id="page"><div id="app"></div></div>
+<div id="ed"><div class="hint" style="color:#9fe9ee">EDIT PANEL — departments &amp; cards. Mark clues with {{double braces}}.</div><textarea id="ta" spellcheck="false"></textarea><div class="hint" id="msg" style="color:#9fe9ee"></div>
+<button class="btn blue" data-a="save">SAVE</button><button class="btn dark" data-a="reset">RESET CONTENT</button><button class="btn dark" data-a="clr">CLEAR LEADERBOARD</button><button class="btn outline" style="color:#fff;border-color:#fff" data-a="close">CLOSE</button></div>
+<script>
+const DEF={depts:["HR","IT","DevOps","GRC","Cybersecurity","Finance & Accounting","Customer care","Marketing","Sales & restaurants","Supply chain & Logistics"],
+cards:[
+{from:'"IT Support" <it-support@{{ananiija}}.com>',sub:'Your password {{expires in 2 hours}}',body:'Your Ananinja account password will expire today. Click below to keep access to your mailbox and files.',btn:'{{Update password now}}',ok:false,
+why:['Lookalike domain: ananiija.com has an extra “i”. Ours is ananinja.com.','Urgency: a 2-hour deadline is built to rush you.','IT never asks for your password through an email button.']},
+{from:'"Google Accounts" <no-reply@{{accounts-google-secure.com}}>',to:'you@ananinja.com',date:'Today, 9:14 AM',gmail:true,sub:'Unusual sign-in attempt detected',body:'We noticed a sign-in attempt from a new device. If this wasn’t you, secure your account now. {{This link expires in 30 minutes.}}',btn:'{{Change password}}',ok:false,
+why:['Lookalike domain: accounts-google-secure.com is not google.com.','A short countdown is designed to make you click before you check.','Google never needs you to change your password from a button inside an email — go to accounts.google.com directly.']},
+{from:'"Finance Team" <payments@{{ananiija}}.com>',sub:'New bank details for invoice #4471',body:'Please pay the attached invoice {{today}} to our {{NEW bank account}}. The old account is closed. {{Do not call, reply only by email.}}',att:'Invoice_4471.pdf',ok:false,
+why:['Lookalike domain: ananiija.com.','Changed bank details are the classic payment-fraud move.','“Do not call” blocks you from verifying. Always confirm by phone on a known number.']},
+{from:'"LinkedIn" <notifications-noreply@{{linkedin.com}}>',sub:'You appeared in 8 searches this week',body:'See who’s viewing your profile and grow your network. {{You can manage these emails in your LinkedIn settings.}}',ok:true,
+why:['Sender domain is exactly linkedin.com.','No urgency, no password request, no attachment.','It points you to your own settings, not a risky form.']},
+{from:'"HR Team" <hr@{{ananinja.com}}>',sub:'Updated leave policy is on the intranet',body:'The annual leave policy has been updated. {{No action is needed.}} You can read it on the intranet, and the HR team is happy to answer questions.',ok:true,
+why:['Domain is exactly ananinja.com.','Nothing to click, send or sign.','It points to the intranet you already use.']}]};
+const mem={},ld=k=>{try{const v=localStorage.getItem(k);return v?JSON.parse(v):mem[k]}catch(e){return mem[k]}},sv=(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v))}catch(e){mem[k]=v}};
+let cfg=ld('cn_cfg')||DEF,S={scr:'intro',dept:null,i:0,score:0,res:[],deck:[],ans:null},taps=0,clr=0;
+const $=id=>document.getElementById(id),E=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'),M=s=>E(s).replace(/\{\{(.+?)\}\}/g,'<mark>$1</mark>');
+
+function nj(s,w){
+const K='#0e1518',BLUE='#1ecad3',WHITE='#fff';
+const leftShape=`<rect x="46" y="118" width="20" height="70" rx="10" fill="${K}"/><circle cx="56" cy="188" r="11" fill="${BLUE}"/>`;
+const rightShape=`<rect x="154" y="118" width="20" height="70" rx="10" fill="${K}"/><circle cx="164" cy="188" r="11" fill="${BLUE}"/>`;
+let left,right,face='';
+if(s=='wave'){left=leftShape;right=`<g class="wave-arm">${rightShape}</g>`;}
+else if(s=='happy'){left=`<g class="cheer-l">${leftShape}</g>`;right=`<g class="cheer-r">${rightShape}</g>`;
+ face=`<g class="spark"><path d="M40 44 L43 51 L50 54 L43 57 L40 64 L37 57 L30 54 L37 51 Z" fill="${BLUE}"/></g><g class="spark" style="animation-delay:.3s"><path d="M186 50 L188 55 L193 57 L188 59 L186 64 L184 59 L179 57 L184 55 Z" fill="${BLUE}"/></g>`;}
+else if(s=='sad'){left=`<g class="cry-l">${leftShape}</g>`;right=`<g class="cry-r">${rightShape}</g>`;
+ face=`<rect x="72" y="73" width="15" height="3" rx="1.5" fill="${K}" transform="rotate(-12 79 75)"/><rect x="133" y="73" width="15" height="3" rx="1.5" fill="${K}" transform="rotate(12 141 75)"/><g class="tear"><circle cx="81" cy="94" r="3.5" fill="${BLUE}"/><circle cx="139" cy="94" r="3.5" fill="${BLUE}"/></g>`;}
+else {left=leftShape;right=rightShape;}
+let o=`<ellipse cx="110" cy="225" rx="55" ry="10" fill="#000" opacity=".12"/>`
++`<path d="M70 150 Q60 190 75 232 L95 232 Q92 195 100 160 Z" fill="${K}"/>`
++`<path d="M150 150 Q160 190 145 232 L125 232 Q128 195 120 160 Z" fill="${K}"/>`
++`<path d="M60 110 Q55 150 70 175 Q110 190 150 175 Q165 150 160 110 Z" fill="${K}"/>`
++`<path d="M60 150 Q110 168 160 150 L158 162 Q110 180 62 162 Z" fill="${BLUE}"/>`
++left+right
++`<circle cx="110" cy="80" r="62" fill="${K}"/>`
++`<path d="M160 55 Q190 60 195 85 Q198 100 185 105 Q188 88 170 72 Z" fill="${K}"/>`
++`<path d="M178 90 Q198 98 200 118 Q182 112 172 100 Z" fill="${K}"/>`
++`<path d="M50 78 Q110 100 170 78 Q168 108 110 118 Q52 108 50 78 Z" fill="${WHITE}"/>`
++`<ellipse cx="80" cy="90" rx="10" ry="12" fill="${K}"/><ellipse cx="140" cy="90" rx="10" ry="12" fill="${K}"/>`
++`<circle cx="83" cy="86" r="3.2" fill="${WHITE}"/><circle cx="143" cy="86" r="3.2" fill="${WHITE}"/>`
++`<path d="M48 70 Q110 92 172 70 L172 58 Q110 80 48 58 Z" fill="${K}"/>`
++`<path d="M38 95 Q22 100 18 118 Q34 112 44 100 Z" fill="${BLUE}"/>`
++face;
+return `<div class="nj ${s}" style="width:${w}px"><svg viewBox="0 0 220 240" style="overflow:visible">${o}</svg></div>`}
+
+function card(c,rev){const web=!!c.url,l=(c.from||'').replace(/[^A-Za-z]/g,'')[0]||'?';
+const avatar=c.gmail?`<span class="av" style="background:#fff;border:1px solid var(--line)"><svg width="18" height="18" viewBox="0 0 48 48"><path fill="#4285F4" d="M45.12 24.5c0-1.56-.14-3.06-.4-4.5H24v8.51h11.84c-.51 2.75-2.06 5.08-4.39 6.64v5.52h7.11c4.16-3.83 6.56-9.47 6.56-16.17z"/><path fill="#34A853" d="M24 46c5.94 0 10.92-1.97 14.56-5.33l-7.11-5.52c-1.97 1.32-4.49 2.1-7.45 2.1-5.73 0-10.58-3.87-12.31-9.07H4.34v5.7C7.96 41.07 15.4 46 24 46z"/><path fill="#FBBC05" d="M11.69 28.18A13.7 13.7 0 0 1 11 24c0-1.45.25-2.86.69-4.18v-5.7H4.34A21.98 21.98 0 0 0 2 24c0 3.55.85 6.91 2.34 9.88z"/><path fill="#EA4335" d="M24 10.75c3.23 0 6.13 1.11 8.41 3.29l6.31-6.31C34.91 4.18 29.93 2 24 2 15.4 2 7.96 6.93 4.34 14.12l7.35 5.7c1.73-5.2 6.58-9.07 12.31-9.07z"/></svg></span>`:`<span class="av">${l}</span>`;
+const head=web?`<div class="url">${M(c.url)}</div><b style="color:#4285f4">${E(c.logo||'')}</b>`:`<div class="hd">${avatar}<div><b>${M(c.from)}</b>${c.to?`<div class="ml">To: ${E(c.to)}${c.date?' · '+E(c.date):''}</div>`:''}</div></div>`;
+return `<div class="card ${c.ok?'good':'bad'} ${rev?'rev':''}">`+head+`<h3>${M(c.sub)}</h3><p>${M(c.body)}</p>`+(c.fields||[]).map(f=>`<div class="in">${E(f)}</div>`).join('')+(c.att?`<span class="chip">📎 ${E(c.att)}</span>`:'')+(c.btn?`<span class="cb" style="${c.gmail?'background:#1a73e8':''}">${M(c.btn)}</span>`:'')+`</div>`}
+const lb=()=>ld('cn_lb')||{};
+function prog(){return `<div class="prog">`+S.deck.map((_,i)=>`<span class="${i<S.res.length?(S.res[i]?'ok':'no'):i==S.i?'cur':''}"></span>`).join('')+`</div>`}
+const tiers=[[50,'Phishing Expert — perfect score'],[40,'Sharp Eye'],[30,'Getting There'],[0,'Keep Practicing']];
+function render(){let h='',a=$('app');
+if(S.scr=='intro')h=`<div class="eyebrow" id="tt">CYBER AWARENESS MONTH</div><h1>Spot the<br>Attack</h1>${nj('wave',140)}<div class="sub">Can you tell a real email from a phishing attempt?</div><button class="btn blue" data-a="start">START</button><button class="btn outline" data-a="board">LEADERBOARD</button>`;
+if(S.scr=='clan')h=`<div class="eyebrow">01 · YOUR TEAM</div><h2>Choose your department</h2><div class="grid">${cfg.depts.map(d=>`<button class="opt ${S.dept==d?'on':''}" data-a="pick" data-v="${E(d)}">${E(d)}</button>`).join('')}</div><button class="btn blue" data-a="go" ${S.dept?'':'disabled'}>CONTINUE</button>`;
+if(S.scr=='play'){const c=S.deck[S.i],r=S.ans;
+h=`<div class="sub">EMAIL ${S.i+1} OF ${S.deck.length}</div>${prog()}${nj(r?(r.right?'happy':'sad'):'idle',r?108:86)}${card(c,!!r)}`;
+if(!r)h+=`<button class="btn blue" data-a="ans" data-v="real">✓ REAL</button><button class="btn dark" data-a="ans" data-v="atk">⚠ ATTACK</button>`;
+else h+=`<div class="v ${r.right?'g':'r'}">${r.right?'CORRECT · +10 POINTS':'NOT QUITE — it was '+(c.ok?'REAL':'an ATTACK')}</div><div class="panel"><div class="eyebrow">${c.ok?'✔ WHY IT’S SAFE':'⚑ RED FLAGS'}</div><ul class="fl">${c.why.map(w=>`<li>${E(w)}</li>`).join('')}</ul></div><button class="btn dark" data-a="next">${S.i+1<S.deck.length?'NEXT EMAIL':'FINISH'}</button>`}
+if(S.scr=='end'){const sc=S.score,t=tiers.find(t=>sc>=t[0]);
+h=`<div class="eyebrow">RESULTS</div><h2>Mission Complete</h2>${nj(sc>=30?'happy':'sad',124)}<div class="big">${sc}</div><div class="sub">${sc/10} / ${S.deck.length} correct</div><div class="btn dark" style="cursor:default">${t[1]}</div><div class="panel">${tiers.map(x=>`<div class="tier ${x==t?'on':''}">${x[0]?x[0]+' pts — ':'Under 30 — '}${x[1]}</div>`).join('')}</div><button class="btn blue" data-a="board">SEE LEADERBOARD</button>`}
+if(S.scr=='board'){const L=lb(),N=ld('cn_lb_n')||{},rows=cfg.depts.map(d=>[d,L[d]||0,N[d]||0]).sort((a,b)=>b[1]-a[1]);
+const mx=rows[0][1];h=`${nj('wave',96)}<h2>Leaderboard</h2><div class="sub">${mx?'Top team: '+E(rows[0][0]):'No scores yet'}</div><div class="lb">${rows.map((r,i)=>`<div class="lr ${i<3&&r[1]?'t'+(i+1):''} ${r[0]==S.dept&&S.last?'me':''}"><span class="rk">${i+1}</span><div class="nm">${E(r[0])}${r[0]==S.dept&&S.last?'<em>YOU</em>':''}<small style="font-weight:600;color:var(--muted)"> · ${r[2]} played</small><div class="bar"><i style="width:${mx?r[1]/mx*100:0}%"></i></div></div><span class="pt">${r[1]}</span></div>`).join('')}</div><button class="btn blue" data-a="again">PLAY AGAIN</button>`}
+if(S.scr=='admin'){const L=lb();h=`<h2>Admin</h2><div class="sub">Delete scores</div><div class="lb">${cfg.depts.map(d=>`<div class="lr"><div class="nm">${E(d)}</div><span class="pt">${L[d]||0}</span><button class="mini" data-a="del" data-v="${E(d)}">${S.cf==d?'SURE?':'DELETE'}</button></div>`).join('')}</div><button class="btn dark" data-a="delall">${S.cf=='*'?'TAP AGAIN TO CLEAR':'CLEAR ALL SCORES'}</button><button class="btn blue" data-a="edit">EDIT CARDS &amp; DEPARTMENTS</button><button class="btn outline" data-a="exit">EXIT ADMIN</button>`}
+a.innerHTML=h;window.scrollTo(0,0)}
+function act(a,v){
+if(a=='start'){S.scr='clan';S.dept=null}
+else if(a=='board'){S.last=S.scr=='end';S.scr='board'}
+else if(a=='pick')S.dept=v;
+else if(a=='go'){S.deck=[...cfg.cards].sort(()=>Math.random()-.5).slice(0,5);Object.assign(S,{i:0,score:0,res:[],ans:null,scr:'play'})}
+else if(a=='ans'){const right=(v=='real')==S.deck[S.i].ok;S.ans={right};S.res.push(right);if(right)S.score+=10}
+else if(a=='next'){if(S.i+1<S.deck.length){S.i++;S.ans=null}else{const L=lb();L[S.dept]=(L[S.dept]||0)+S.score;sv('cn_lb',L);const N=ld('cn_lb_n')||{};N[S.dept]=(N[S.dept]||0)+1;sv('cn_lb_n',N);S.scr='end'}}
+else if(a=='del'){if(S.cf!=v)S.cf=v;else{const L=lb();delete L[v];sv('cn_lb',L);S.cf=null}}
+else if(a=='delall'){if(S.cf!='*')S.cf='*';else{sv('cn_lb',{});S.cf=null}}
+else if(a=='edit'){$('ta').value=JSON.stringify(cfg,null,1);$('ed').style.display='flex';return}
+else if(a=='exit'){S.scr='intro';S.cf=null}
+else if(a=='again'){S.scr='intro';S.last=false}
+else if(a=='save'){try{const j=JSON.parse($('ta').value);if(!Array.isArray(j.depts)||!Array.isArray(j.cards))throw 0;cfg=j;sv('cn_cfg',j);$('msg').textContent='Saved.'}catch(e){$('msg').textContent='Invalid format — not saved.'}return}
+else if(a=='reset'){cfg=DEF;sv('cn_cfg',DEF);$('ta').value=JSON.stringify(cfg,null,1);$('msg').textContent='Content reset.';return}
+else if(a=='clr'){if(++clr<2){$('msg').textContent='Tap again to clear all scores.';return}clr=0;sv('cn_lb',{});$('msg').textContent='Leaderboard cleared.';return}
+else if(a=='close'){$('ed').style.display='none';S.scr='admin';clr=0}
+render()}
+document.addEventListener('click',e=>{if(e.target.id=='tt'){if(++taps>=5){taps=0;S.scr='admin';render()}return}
+const b=e.target.closest('[data-a]');if(b&&!b.disabled)act(b.dataset.a,b.dataset.v)});
+if(location.hash=='#admin')S.scr='admin';addEventListener('hashchange',()=>{if(location.hash=='#admin'){S.scr='admin';render()}});render();
+</script></body></html>
